@@ -1,3 +1,28 @@
+# Actions Personalizadas
+Esta seção apresenta as actions personalizadas no GitHub Actions. Aprenda como criar, usar e publicar suas próprias actions.
+
+## Conteúdo
+
+1. O que são Actions Personalizadas?
+2. Tipos de Actions
+3. Criando uma Action em JavaScript
+4. Usando Actions Docker
+5. Publicando Actions
+
+## Exemplo: Action em JavaScript
+
+```js
+// action.js
+module.exports = () => {
+  console.log('Olá da action personalizada!');
+};
+
+## Exercício: Crie uma Action Personalizada
+
+1. Crie uma action JavaScript simples que imprime uma mensagem.
+2. Use-a em um workflow.
+
+Explore os logs para ver sua action personalizada em ação!
 # Custom Actions
 
 In this section, we will cover how to create and use custom actions in GitHub Actions. We will explore JavaScript/TypeScript actions, containerized actions, composite actions, and publishing private actions for reuse.

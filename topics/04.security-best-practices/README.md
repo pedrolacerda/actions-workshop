@@ -1,3 +1,28 @@
+# Melhores Práticas de Segurança
+
+Esta seção aborda as melhores práticas para proteger seus workflows do GitHub Actions.
+
+## Conteúdo
+
+1. Princípio do Menor Privilégio
+2. Gerenciamento de Segredos
+3. Segurança de Dependências
+4. Actions de Terceiros
+
+## Dicas
+
+- Use segredos para dados sensíveis.
+- Fixe as versões das actions.
+- Limite as permissões para workflows e jobs.
+- Revise actions de terceiros antes de usar.
+
+## Exercício: Proteja Seu Workflow
+
+1. Atualize seu workflow para usar segredos para informações sensíveis.
+2. Fixe todas as versões das actions.
+3. Limite as permissões dos jobs.
+
+Discuta como essas mudanças melhoram a segurança.
 # Security and Best Practices
 
 In this section, we will cover security and best practices for GitHub Actions workflows, including secrets and variables management, security hardening for workflows, and reusable workflows vs composite actions.

@@ -1,3 +1,43 @@
+# Workflows Complexos
+
+Esta seção explora recursos mais avançados dos workflows do GitHub Actions, como múltiplos jobs, dependências entre jobs e builds em matriz.
+
+## Conteúdo
+
+1. Múltiplos Jobs
+2. Dependências entre Jobs
+3. Builds em Matriz
+
+## Exemplo: Múltiplos Jobs
+
+```yaml
+name: 02. Workflow Complexo
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: echo "Construindo..."
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Teste
+        run: echo "Testando..."
+```
+
+## Exercício: Crie um Workflow com Múltiplos Jobs
+
+1. Crie um workflow com dois jobs: `build` e `test`.
+2. Faça o job `test` depender do job `build`.
+3. Cada job deve ter um passo que imprime uma mensagem.
+
+Observe a ordem de execução na aba Actions.
 # Complex Workflows
 
 In this section, we will cover advanced topics related to GitHub Actions workflows, including parallel and sequential jobs, matrix builds, and reusable workflows.

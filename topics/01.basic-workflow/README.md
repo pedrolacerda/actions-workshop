@@ -1,17 +1,17 @@
-# Basic Workflow
+# Workflow Básico
 
-This section covers the basics of creating and using GitHub Actions workflows. It includes a simple CI pipeline example and introduces key concepts such as workflows, jobs, steps, and actions.
+Esta seção cobre o básico de como criar e usar workflows do GitHub Actions. Inclui um exemplo simples de pipeline de CI e apresenta conceitos-chave como workflows, jobs, steps e actions.
 
-## Contents
+## Conteúdo
 
-Workflows are defined using YAML files that are stored in the `.github/workflows` directory of your repository. Each workflow file is executed in response to specific events.
+Os workflows são definidos usando arquivos YAML que ficam armazenados no diretório `.github/workflows` do seu repositório. Cada arquivo de workflow é executado em resposta a eventos específicos.
 
-## Example Workflow
+## Exemplo de Workflow
 
-Below is an example of a basic CI pipeline executed on every push to the `main` branch. The pipeline runs on the latest version of Ubuntu and includes three steps: checking out the repository, setting up Node.js, and running tests.
+Abaixo está um exemplo de pipeline CI básico executado a cada push para o branch `main`. O pipeline roda na versão mais recente do Ubuntu e inclui três etapas: fazer checkout do repositório, configurar o Node.js e rodar os testes.
 
 ```yaml
-name: 01. Basic Workflow
+name: 01. Workflow Básico
 on:
   push:
     branches:
@@ -19,44 +19,44 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults: # This sets the default folder for all steps in the job
+    defaults: # Define a pasta padrão para todos os passos do job
       run:
         working-directory: sample-app
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - name: Install dependencies
+      - name: Instalar dependências
         run: npm install
-      - name: Run tests
+      - name: Rodar testes
         run: npm test
 ```
 
-## Exercise: Create Your First GitHub Actions Workflow
+## Exercício: Crie Seu Primeiro Workflow do GitHub Actions
 
-Follow these steps to create and run your first GitHub Actions workflow:
+Siga estes passos para criar e rodar seu primeiro workflow do GitHub Actions:
 
-1. **Create a new repository**:
-  - Create a new repo in your own GitHub account (namespace).
+1. **Crie um novo repositório**:
+  - Crie um novo repositório na sua conta do GitHub (namespace).
 
-2. **Add a workflow file**:
-  - In your repository, create a new directory called `.github/workflows`.
-  - Inside this directory, create a new file named `01.basic-workflow.yml`.
+2. **Adicione um arquivo de workflow**:
+  - No seu repositório, crie um diretório chamado `.github/workflows`.
+  - Dentro desse diretório, crie um arquivo chamado `01.basic-workflow.yml`.
 
-3. **Define the workflow**:
-  - Create a workflow that builds a NodeJS project on every push to the `main` branch.
-  - Set the default directory to be `sample-app`.
+3. **Defina o workflow**:
+  - Crie um workflow que faça build de um projeto NodeJS a cada push no branch `main`.
+  - Defina o diretório padrão como `sample-app`.
 
-4. **Push the changes**:
-  - Commit and push the changes to the `main` branch of your repository.
+4. **Faça o push das alterações**:
+  - Faça commit e push das alterações para o branch `main` do seu repositório.
 
-5. **Observe the workflow execution**:
-  - Go to the "Actions" tab in your GitHub repository.
-  - You should see the workflow running. Wait for it to complete.
+5. **Observe a execução do workflow**:
+  - Vá até a aba "Actions" no seu repositório do GitHub.
+  - Você deve ver o workflow rodando. Aguarde até que ele termine.
 
-6. **Check the results**:
-  - Once the workflow completes, check the logs to ensure all steps were executed successfully.
+6. **Verifique os resultados**:
+  - Quando o workflow terminar, verifique os logs para garantir que todas as etapas foram executadas com sucesso.
 
-By completing this exercise, you will have created a basic CI pipeline using GitHub Actions.
+Ao concluir este exercício, você terá criado um pipeline CI básico usando o GitHub Actions.

@@ -1,3 +1,34 @@
+# Configuração Avançada
+
+Esta seção cobre opções avançadas de configuração para workflows do GitHub Actions, como workflows reutilizáveis, variáveis de ambiente e execução condicional.
+
+## Conteúdo
+
+1. Workflows Reutilizáveis
+2. Variáveis de Ambiente
+3. Execução Condicional
+
+## Exemplo: Passo Condicional
+
+```yaml
+name: 05. Configuração Avançada
+on:
+  push:
+    branches: [ main ]
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Executar apenas no main
+        if: github.ref == 'refs/heads/main'
+        run: echo "Isto roda apenas no branch main."
+```
+
+## Exercício: Adicione um Passo Condicional
+
+1. Adicione um passo ao seu workflow que só rode no branch `main`.
+
+Observe como o passo é ignorado em outros branches.
 # Advanced Configuration
 
 In this section, we will cover advanced configuration topics for GitHub Actions workflows, including environment variables and conditional execution.
