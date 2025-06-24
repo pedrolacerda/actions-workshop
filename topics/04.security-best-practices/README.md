@@ -23,19 +23,20 @@ Esta seção aborda as melhores práticas para proteger seus workflows do GitHub
 3. Limite as permissões dos jobs.
 
 Discuta como essas mudanças melhoram a segurança.
-# Security and Best Practices
 
-In this section, we will cover security and best practices for GitHub Actions workflows, including secrets and variables management, security hardening for workflows, and reusable workflows vs composite actions.
+# Segurança e Melhores Práticas
 
-## Secrets and Variables Management
+Nesta seção, abordaremos segurança e melhores práticas para workflows do GitHub Actions, incluindo gerenciamento de segredos e variáveis, endurecimento de segurança para workflows e workflows reutilizáveis vs actions compostas.
 
-Managing secrets and variables securely is crucial for protecting sensitive information in your workflows.
+## Gerenciamento de Segredos e Variáveis
 
-### Using Secrets
+Gerenciar segredos e variáveis de forma segura é crucial para proteger informações sensíveis em seus workflows.
 
-Secrets are encrypted environment variables that you can create in your repository or organization settings. They are used to store sensitive information such as API keys, tokens, and passwords.
+### Usando Segredos
 
-Example:
+Segredos são variáveis de ambiente criptografadas que você pode criar nas configurações do seu repositório ou organização. Eles são usados para armazenar informações sensíveis como chaves de API, tokens e senhas.
+
+Exemplo:
 
 ```yaml
 jobs:
@@ -43,19 +44,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use secrets
-        run: echo "Using secrets"
+      - name: Usar segredos
+        run: echo "Usando segredos"
         env:
           SECRET_VALUE: ${{ secrets.MY_SECRET }}
 ```
 
-In this example, the `MY_SECRET` secret is accessed using the `${{ secrets.MY_SECRET }}` syntax and assigned to the `SECRET_VALUE` environment variable.
+Neste exemplo, o segredo `MY_SECRET` é acessado usando a sintaxe `${{ secrets.MY_SECRET }}` e atribuído à variável de ambiente `SECRET_VALUE`.
 
-### Using Variables
+### Usando Variáveis
 
-Variables are used to store non-sensitive information that can be reused across multiple steps in a workflow or across multiple repos in an organization.
+Variáveis são usadas para armazenar informações não-sensíveis que podem ser reutilizadas em múltiplos passos de um workflow ou através de múltiplos repositórios em uma organização.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
@@ -65,63 +66,63 @@ jobs:
       MY_VARIABLE: ${{ vars.MY_VARIABLE }}
     steps:
       - uses: actions/checkout@v2
-      - name: Use variables
+      - name: Usar variáveis
         run: echo $MY_VARIABLE
 ```
 
-In this example, the `MY_VARIABLE` variable is accessed using the `${{ vars.MY_VARIABLE }}` syntax and assigned to the `MY_VARIABLE` environment variable.
+Neste exemplo, a variável `MY_VARIABLE` é acessada usando a sintaxe `${{ vars.MY_VARIABLE }}` e atribuída à variável de ambiente `MY_VARIABLE`.
 
-## Security Hardening for Workflows
+## Endurecimento de Segurança para Workflows
 
-Security hardening for workflows involves implementing best practices to protect your workflows from potential security threats.
+O endurecimento de segurança para workflows envolve implementar melhores práticas para proteger seus workflows de potenciais ameaças de segurança.
 
-### Setting Permissions to Edit Workflows
+### Definindo Permissões para Editar Workflows
 
-Restricting permissions to edit workflows can help prevent unauthorized changes to your workflows.
+Restringir permissões para editar workflows pode ajudar a prevenir alterações não autorizadas em seus workflows.
 
-To restrict permissions to edit workflows you can create a [Repository Ruleset](https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets) of the type [Push ruleset](https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets#push-rulesets) and add a rule to restrict the `workflows` directory.
+Para restringir permissões para editar workflows, você pode criar um [Repository Ruleset](https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets) do tipo [Push ruleset](https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets#push-rulesets) e adicionar uma regra para restringir o diretório `workflows`.
 
 <img width="925" alt="image" src="https://github.com/user-attachments/assets/f77ab945-d643-4154-b08a-01d89a18da02">
 
-The organization owners can define who can bypass these rules.
+Os proprietários da organização podem definir quem pode contornar essas regras.
 
 <img width="955" alt="image" src="https://github.com/user-attachments/assets/204dbb10-efc3-4276-9f19-b25fa00fa255">
 
-### Runner Groups
+### Grupos de Runners
 
-Runner groups allow you to organize and manage your self-hosted runners more effectively. You can use runner groups to assign runners to specific repositories or organizations, set permissions for runners, and limit the workflows that can use them.
+Grupos de runners permitem organizar e gerenciar seus runners auto-hospedados de forma mais efetiva. Você pode usar grupos de runners para atribuir runners a repositórios ou organizações específicas, definir permissões para runners e limitar os workflows que podem usá-los.
 
-### Setting Scopes for Self-Hosted Runners and Runner Groups
+### Definindo Escopos para Runners Auto-hospedados e Grupos de Runners
 
-Setting scopes for self-hosted runners can help limit the access of self-hosted runners to specific repositories, organizations, and workflows.
+Definir escopos para runners auto-hospedados pode ajudar a limitar o acesso de runners auto-hospedados a repositórios, organizações e workflows específicos.
 
-To set these permissions, you have to go to the organization's or enteprise's settings and then to the `Actions` section. There you can set the permissions for self-hosted runners and runner groups.
+Para definir essas permissões, você deve ir às configurações da organização ou empresa e depois à seção `Actions`. Lá você pode definir as permissões para runners auto-hospedados e grupos de runners.
 
 <img width="948" alt="image" src="https://github.com/user-attachments/assets/23d39b06-be4e-43dd-a2c2-46e812a774f0">
 
-## Reusable Workflows vs Composite Actions
+## Workflows Reutilizáveis vs Actions Compostas
 
-Reusable workflows and composite actions are two approaches to creating reusable components in GitHub Actions.
+Workflows reutilizáveis e actions compostas são duas abordagens para criar componentes reutilizáveis no GitHub Actions.
 
-### Reusable Workflows
+### Workflows Reutilizáveis
 
-Reusable workflows allow you to define a workflow once and reuse it in multiple repositories or workflows.
+Workflows reutilizáveis permitem definir um workflow uma vez e reutilizá-lo em múltiplos repositórios ou workflows.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
   reusable-workflow:
     uses: ./.github/workflows/reusable-workflow.yml@main
     with:
-      some-input: some-value
+      some-input: algum-valor
 ```
 
-### Composite Actions
+### Actions Compostas
 
-Composite actions allow you to combine multiple steps into a single action.
+Actions compostas permitem combinar múltiplos passos em uma única action.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
@@ -129,37 +130,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run composite action
+      - name: Executar action composta
         uses: ./.github/actions/composite-action@main
         with:
-          name: 'GitHub Actions Workshop'
+          name: 'Workshop de GitHub Actions'
 ```
 
-In this example, the `composite-action` job uses a composite action defined in the `.github/actions/composite-action` directory.
+Neste exemplo, o job `composite-action` usa uma action composta definida no diretório `.github/actions/composite-action`.
 
-#### In summary:
+#### Em resumo:
 
-| Reusable workflows | Composite actions |
+| Workflows reutilizáveis | Actions compostas |
 | --- | --- |
-| Can connect a maximum of four levels of workflows	| Can be nested to have up to 10 composite actions in one workflow |
-| Can use secrets |	Cannot use secrets |
-| Can use if: conditionals	| Cannot use if: conditionals|
-| Can be stored as normal YAML files in your project	| Requires individual folders for each composite action |
-| Can use multiple jobs	| Cannot use multiple jobs
-| Each step is logged in real-time	| Logged as one step even if it contains multiple steps |
+| Podem conectar no máximo quatro níveis de workflows | Podem ser aninhadas para ter até 10 actions compostas em um workflow |
+| Podem usar segredos | Não podem usar segredos |
+| Podem usar condicionais if: | Não podem usar condicionais if: |
+| Podem ser armazenados como arquivos YAML normais em seu projeto | Requer pastas individuais para cada action composta |
+| Podem usar múltiplos jobs | Não podem usar múltiplos jobs |
+| Cada passo é registrado em tempo real | Registrado como um passo mesmo que contenha múltiplos passos |
 
-## Exercise: Implementing Security Best Practices in GitHub Actions
+## Exercício: Implementando Melhores Práticas de Segurança no GitHub Actions
 
-In this exercise, you will apply the security best practices discussed above to create a secure GitHub Actions workflow. Follow the steps below to complete the exercise:
+Neste exercício, você aplicará as melhores práticas de segurança discutidas acima para criar um workflow seguro do GitHub Actions. Siga os passos abaixo para completar o exercício:
 
-### Step 1: Secrets and Variables Management
-1. Create a secret in your repository settings to store sensitive information.
-2. Update your workflow to use the secret in one of the steps.
-3. Create a variable in your repository settings to store non-sensitive information.
-4. Update your workflow to use the variable in one of the steps.
+### Passo 1: Gerenciamento de Segredos e Variáveis
+1. Crie um segredo nas configurações do seu repositório para armazenar informações sensíveis.
+2. Atualize seu workflow para usar o segredo em um dos passos.
+3. Crie uma variável nas configurações do seu repositório para armazenar informações não-sensíveis.
+4. Atualize seu workflow para usar a variável em um dos passos.
 
-### Step 2: Reusable Workflows vs Composite Actions
-1. Create a reusable workflow in your repository.
-2. Update another workflow to use the reusable workflow.
-3. Create a composite action in your repository.
-4. Update a workflow to use the composite action.
+### Passo 2: Workflows Reutilizáveis vs Actions Compostas
+1. Crie um workflow reutilizável em seu repositório.
+2. Atualize outro workflow para usar o workflow reutilizável.
+3. Crie uma action composta em seu repositório.
+4. Atualize um workflow para usar a action composta.

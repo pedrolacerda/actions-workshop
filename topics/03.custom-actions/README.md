@@ -16,6 +16,7 @@ Esta seção apresenta as actions personalizadas no GitHub Actions. Aprenda como
 module.exports = () => {
   console.log('Olá da action personalizada!');
 };
+```
 
 ## Exercício: Crie uma Action Personalizada
 
@@ -23,52 +24,53 @@ module.exports = () => {
 2. Use-a em um workflow.
 
 Explore os logs para ver sua action personalizada em ação!
-# Custom Actions
 
-In this section, we will cover how to create and use custom actions in GitHub Actions. We will explore JavaScript/TypeScript actions, containerized actions, composite actions, and publishing private actions for reuse.
+# Actions Personalizadas
 
-Further reading: https://docs.github.com/en/enterprise-cloud@latest/actions/sharing-automations/creating-actions/about-custom-actions#choosing-a-location-for-your-action
+Nesta seção, abordaremos como criar e usar actions personalizadas no GitHub Actions. Exploraremos actions JavaScript/TypeScript, actions em contêiner, actions compostas e a publicação de actions privadas para reutilização.
 
-## Writing Custom JavaScript/TypeScript Actions
+Leitura adicional: https://docs.github.com/en/enterprise-cloud@latest/actions/sharing-automations/creating-actions/about-custom-actions#choosing-a-location-for-your-action
 
-Custom JavaScript/TypeScript actions allow you to write actions using JavaScript or TypeScript. These actions can be used to automate tasks in your workflows.
+## Escrevendo Actions JavaScript/TypeScript Personalizadas
 
-### Example: Custom JavaScript Action
+Actions JavaScript/TypeScript personalizadas permitem escrever actions usando JavaScript ou TypeScript. Essas actions podem ser usadas para automatizar tarefas em seus workflows.
 
-1. Create a new directory for your action:
+### Exemplo: Action JavaScript Personalizada
+
+1. Crie um novo diretório para sua action:
 
 ```sh
 mkdir -p .github/actions/custom-js-action
 ```
 
-2. Create an `index.js` file in the action directory:
+2. Crie um arquivo `index.js` no diretório da action:
 
 ```js
 const core = require('@actions/core');
 
 try {
   const name = core.getInput('name');
-  console.log(`Hello, ${name}!`);
+  console.log(`Olá, ${name}!`);
 } catch (error) {
   core.setFailed(error.message);
 }
 ```
 
-3. Create an `action.yml` file in the action directory:
+3. Crie um arquivo `action.yml` no diretório da action:
 
 ```yaml
-name: 'Custom JavaScript Action'
-description: 'A custom action written in JavaScript'
+name: 'Action JavaScript Personalizada'
+description: 'Uma action personalizada escrita em JavaScript'
 inputs:
   name:
-    description: 'The name to greet'
+    description: 'O nome a ser cumprimentado'
     required: true
 runs:
   using: 'node12'
   main: 'index.js'
 ```
 
-4. Use the custom action in your workflow:
+4. Use a action personalizada em seu workflow:
 
 ```yaml
 jobs:
@@ -76,25 +78,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run custom JavaScript action
+      - name: Executar action JavaScript personalizada
         uses: ./.github/actions/custom-js-action
         with:
-          name: 'GitHub Actions Workshop'
+          name: 'Workshop de GitHub Actions'
 ```
 
-## Writing Containerized Actions
+## Escrevendo Actions em Contêiner
 
-Containerized actions allow you to package your action as a Docker container. This can be useful when your action requires a specific environment or dependencies.
+Actions em contêiner permitem empacotar sua action como um contêiner Docker. Isso pode ser útil quando sua action requer um ambiente específico ou dependências.
 
-### Example: Containerized Action
+### Exemplo: Action em Contêiner
 
-1. Create a new directory for your action:
+1. Crie um novo diretório para sua action:
 
 ```sh
 mkdir -p .github/actions/containerized-action
 ```
 
-2. Create a `Dockerfile` in the action directory:
+2. Crie um `Dockerfile` no diretório da action:
 
 ```Dockerfile
 FROM node:12
@@ -106,34 +108,34 @@ RUN npm install
 ENTRYPOINT ["node", "/index.js"]
 ```
 
-3. Create an `index.js` file in the action directory (although we're using Node.js in this example, you can use any language or runtime that can be packaged as a Docker container):
+3. Crie um arquivo `index.js` no diretório da action (embora estejamos usando Node.js neste exemplo, você pode usar qualquer linguagem ou runtime que possa ser empacotado como um contêiner Docker):
 
 ```js
 const core = require('@actions/core');
 
 try {
   const name = core.getInput('name');
-  console.log(`Hello, ${name}!`);
+  console.log(`Olá, ${name}!`);
 } catch (error) {
   core.setFailed(error.message);
 }
 ```
 
-4. Create an `action.yml` file in the action directory:
+4. Crie um arquivo `action.yml` no diretório da action:
 
 ```yaml
-name: 'Containerized Action'
-description: 'A custom action packaged as a Docker container'
+name: 'Action em Contêiner'
+description: 'Uma action personalizada empacotada como um contêiner Docker'
 inputs:
   name:
-    description: 'The name to greet'
+    description: 'O nome a ser cumprimentado'
     required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
 ```
 
-5. Use the containerized action in your workflow:
+5. Use a action em contêiner em seu workflow:
 
 ```yaml
 jobs:
@@ -141,43 +143,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run containerized action
+      - name: Executar action em contêiner
         uses: ./.github/actions/containerized-action
         with:
-          name: 'GitHub Actions Workshop'
+          name: 'Workshop de GitHub Actions'
 ```
 
-## Writing Composite Actions
+## Escrevendo Actions Compostas
 
-Composite actions allow you to combine multiple steps into a single action. This can help simplify your workflows and make them more reusable.
+Actions compostas permitem combinar múltiplos passos em uma única action. Isso pode ajudar a simplificar seus workflows e torná-los mais reutilizáveis.
 
-### Example: Composite Action
+### Exemplo: Action Composta
 
-1. Create a new directory for your action:
+1. Crie um novo diretório para sua action:
 
 ```sh
 mkdir -p .github/actions/composite-action
 ```
 
-2. Create an `action.yml` file in the action directory:
+2. Crie um arquivo `action.yml` no diretório da action:
 
 ```yaml
-name: 'Composite Action'
-description: 'A custom composite action'
+name: 'Action Composta'
+description: 'Uma action composta personalizada'
 inputs:
   name:
-    description: 'The name to greet'
+    description: 'O nome a ser cumprimentado'
     required: true
 runs:
   using: 'composite'
   steps:
-    - name: Print greeting
-      run: echo "Hello, ${{ inputs.name }}!"
-    - name: Print current date
+    - name: Imprimir cumprimento
+      run: echo "Olá, ${{ inputs.name }}!"
+    - name: Imprimir data atual
       run: date
 ```
 
-3. Use the composite action in your workflow:
+3. Use a action composta em seu workflow:
 
 ```yaml
 jobs:
@@ -185,52 +187,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run composite action
+      - name: Executar action composta
         uses: ./.github/actions/composite-action
         with:
-          name: 'GitHub Actions Workshop'
+          name: 'Workshop de GitHub Actions'
 ```
 
-## Publishing Private Actions for Reuse
+## Publicando Actions Privadas para Reutilização
 
-Private actions can be published and reused within your organization. This can help you share common actions across multiple repositories. For this use case, we recommend using a monorepo to store your Action, so other users can easily find it, read its documentation, and use it in their workflows pointing to a specific version, SHA, or branch.
+Actions privadas podem ser publicadas e reutilizadas dentro de sua organização. Isso pode ajudar você a compartilhar actions comuns entre múltiplos repositórios. Para esse caso de uso, recomendamos usar um monorepo para armazenar sua Action, para que outros usuários possam facilmente encontrá-la, ler sua documentação e usá-la em seus workflows apontando para uma versão específica, SHA ou branch.
 
-### Use the private action in your workflow:
+### Use a action privada em seu workflow:
 
 ```yaml
     steps:
-      - uses: <your_org>/<action_repo>@<sha/branch/version>
+      - uses: <sua_org>/<repo_action>@<sha/branch/versao>
 ```
 
-## Exercise: Creating and Using Custom Actions
+## Exercício: Criando e Usando Actions Personalizadas
 
-In this exercise, you will create and use different types of custom actions in GitHub Actions. Follow the high-level instructions below to complete each task.
+Neste exercício, você criará e usará diferentes tipos de actions personalizadas no GitHub Actions. Siga as instruções de alto nível abaixo para completar cada tarefa.
 
-### Task 1: Custom JavaScript/TypeScript Action
+### Tarefa 1: Action JavaScript/TypeScript Personalizada
 
-1. Create a new directory for your custom JavaScript/TypeScript action.
-2. Write a JavaScript file that performs a simple task using the GitHub Actions toolkit.
-3. Define the action metadata in an `action.yml` file.
-4. Use your custom action in a GitHub Actions workflow.
+1. Crie um novo diretório para sua action JavaScript/TypeScript personalizada.
+2. Escreva um arquivo JavaScript que executa uma tarefa simples usando o toolkit do GitHub Actions.
+3. Defina os metadados da action em um arquivo `action.yml`.
+4. Use sua action personalizada em um workflow do GitHub Actions.
 
-### Task 2: Containerized Action
+### Tarefa 2: Action em Contêiner
 
-1. Create a new directory for your containerized action.
-2. Write a `Dockerfile` to define the environment and dependencies for your action.
-3. Write a script that performs a simple task and package it in the Docker container.
-4. Define the action metadata in an `action.yml` file.
-5. Use your containerized action in a GitHub Actions workflow.
+1. Crie um novo diretório para sua action em contêiner.
+2. Escreva um `Dockerfile` para definir o ambiente e dependências para sua action.
+3. Escreva um script que executa uma tarefa simples e empacote-o no contêiner Docker.
+4. Defina os metadados da action em um arquivo `action.yml`.
+5. Use sua action em contêiner em um workflow do GitHub Actions.
 
-### Task 3: Composite Action
+### Tarefa 3: Action Composta
 
-1. Create a new directory for your composite action.
-2. Define multiple steps in an `action.yml` file to perform a series of tasks.
-3. Use your composite action in a GitHub Actions workflow.
+1. Crie um novo diretório para sua action composta.
+2. Defina múltiplos passos em um arquivo `action.yml` para executar uma série de tarefas.
+3. Use sua action composta em um workflow do GitHub Actions.
 
-### Task 4: Publishing Private Actions
+### Tarefa 4: Publicando Actions Privadas
 
-1. Create a new repository or use an existing one to store your private actions.
-2. Define the action metadata and implementation in the repository.
-3. Use your private action in a GitHub Actions workflow by referencing the repository and a specific version, SHA, or branch.
+1. Crie um novo repositório ou use um existente para armazenar suas actions privadas.
+2. Defina os metadados e implementação da action no repositório.
+3. Use sua action privada em um workflow do GitHub Actions referenciando o repositório e uma versão específica, SHA ou branch.
 
-Complete each task by following the high-level instructions and refer to the detailed examples provided in the previous sections for guidance.
+Complete cada tarefa seguindo as instruções de alto nível e consulte os exemplos detalhados fornecidos nas seções anteriores para orientação.

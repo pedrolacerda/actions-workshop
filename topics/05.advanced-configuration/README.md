@@ -1,67 +1,36 @@
 # Configuração Avançada
 
-Esta seção cobre opções avançadas de configuração para workflows do GitHub Actions, como workflows reutilizáveis, variáveis de ambiente e execução condicional.
+Nesta seção, abordaremos tópicos de configuração avançada para workflows do GitHub Actions, incluindo variáveis de ambiente, execução condicional, passagem de variáveis entre jobs e o uso do `GITHUB_TOKEN`.
 
-## Conteúdo
+## Variáveis de Ambiente
 
-1. Workflows Reutilizáveis
-2. Variáveis de Ambiente
-3. Execução Condicional
+Variáveis de ambiente são usadas para armazenar valores de configuração que podem ser acessados por seus workflows e actions. Elas podem ser definidas em diferentes níveis, como repositório, workflow, job ou passo.
 
-## Exemplo: Passo Condicional
+### Definindo Variáveis de Ambiente
 
-```yaml
-name: 05. Configuração Avançada
-on:
-  push:
-    branches: [ main ]
-jobs:
-  example:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Executar apenas no main
-        if: github.ref == 'refs/heads/main'
-        run: echo "Isto roda apenas no branch main."
-```
+Você pode definir variáveis de ambiente em seu arquivo de workflow usando a palavra-chave `env`.
 
-## Exercício: Adicione um Passo Condicional
-
-1. Adicione um passo ao seu workflow que só rode no branch `main`.
-
-Observe como o passo é ignorado em outros branches.
-# Advanced Configuration
-
-In this section, we will cover advanced configuration topics for GitHub Actions workflows, including environment variables and conditional execution.
-
-## Environment Variables
-
-Environment variables are used to store configuration values that can be accessed by your workflows and actions. They can be defined at different levels, such as repository, workflow, job, or step.
-
-### Defining Environment Variables
-
-You can define environment variables in your workflow file using the `env` keyword.
-
-Example:
+Exemplo:
 
 ```yaml
 jobs:
   environment-variables:
     runs-on: ubuntu-latest
     env:
-      MY_VARIABLE: "Hello, World!"
+      MY_VARIABLE: "Olá, Mundo!"
     steps:
       - uses: actions/checkout@v2
-      - name: Print environment variable
+      - name: Imprimir variável de ambiente
         run: echo $MY_VARIABLE
 ```
 
-In this example, the `MY_VARIABLE` environment variable is defined at the job level and accessed using the `$MY_VARIABLE` syntax.
+Neste exemplo, a variável de ambiente `MY_VARIABLE` é definida no nível do job e acessada usando a sintaxe `$MY_VARIABLE`.
 
-### Using Environment Variables in Steps
+### Usando Variáveis de Ambiente em Passos (Steps)
 
-You can also define environment variables at the step level.
+Você também pode definir variáveis de ambiente no nível do passo.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
@@ -69,23 +38,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set environment variable
-        run: echo "MY_VARIABLE=Hello, World!" >> $GITHUB_ENV
-      - name: Print environment variable
+      - name: Definir variável de ambiente
+        run: echo "MY_VARIABLE=Olá, Mundo!" >> $GITHUB_ENV
+      - name: Imprimir variável de ambiente
         run: echo $MY_VARIABLE
 ```
 
-In this example, the `MY_VARIABLE` environment variable is defined in the first step and accessed in the second step.
+Neste exemplo, a variável de ambiente `MY_VARIABLE` é definida no primeiro passo e acessada no segundo passo.
 
-## Conditional Execution
+## Execução Condicional
 
-Conditional execution allows you to run steps or jobs based on specific conditions. This can be useful for controlling the flow of your workflows.
+A execução condicional permite que você execute passos ou jobs com base em condições específicas. Isso pode ser útil para controlar o fluxo de seus workflows.
 
-### Using `if` Expressions
+### Usando Expressões `if`
 
-You can use the `if` keyword to define conditions for steps or jobs.
+Você pode usar a palavra-chave `if` para definir condições para passos ou jobs.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
@@ -93,21 +62,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run on push events
+      - name: Executar em eventos de push
         if: github.event_name == 'push'
-        run: echo "This step runs only on push events"
-      - name: Run on pull request events
+        run: echo "Este passo é executado apenas em eventos de push"
+      - name: Executar em eventos de pull request
         if: github.event_name == 'pull_request'
-        run: echo "This step runs only on pull request events"
+        run: echo "Este passo é executado apenas em eventos de pull request"
 ```
 
-In this example, the first step runs only on push events, and the second step runs only on pull request events.
+Neste exemplo, o primeiro passo é executado apenas em eventos de push, e o segundo passo é executado apenas em eventos de pull request.
 
-### Combining Conditions
+### Combinando Condições
 
-You can combine multiple conditions using logical operators such as `&&` (AND) and `||` (OR).
+Você pode combinar múltiplas condições usando operadores lógicos como `&&` (E) e `||` (OU).
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
@@ -115,101 +84,101 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run on push to main branch
+      - name: Executar em push para o branch main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: echo "This step runs only on push events to the main branch"
-      - name: Run on pull request to main branch
+        run: echo "Este passo é executado apenas em eventos de push para o branch main"
+      - name: Executar em pull request para o branch main
         if: github.event_name == 'pull_request' && github.base_ref == 'main'
-        run: echo "This step runs only on pull request events to the main branch"
+        run: echo "Este passo é executado apenas em eventos de pull request para o branch main"
 ```
 
-In this example, the first step runs only on push events to the main branch, and the second step runs only on pull request events to the main branch.
+Neste exemplo, o primeiro passo é executado apenas em eventos de push para o branch main, e o segundo passo é executado apenas em eventos de pull request para o branch main.
 
-## GitHub Expressions and Variables
+## Expressões e Variáveis do GitHub
 
-GitHub Actions provides a way to use expressions and variables to dynamically configure your workflows. Expressions are used to compute values, and variables can store and reuse those values.
+O GitHub Actions fornece uma maneira de usar expressões e variáveis para configurar dinamicamente seus workflows. Expressões são usadas para calcular valores, e variáveis podem armazenar e reutilizar esses valores.
 
-### Using Expressions
+### Usando Expressões
 
-Expressions are written using the `${{ }}` syntax and can be used in various parts of your workflow file.
+Expressões são escritas usando a sintaxe `${{ }}` e podem ser usadas em várias partes do seu arquivo de workflow.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
   expressions-example:
     runs-on: ubuntu-latest
     steps:
-      - name: Print event that triggered the workflow
-        run: echo "The current date is ${{ github.event_name }}"
+      - name: Imprimir evento que disparou o workflow
+        run: echo "O evento que disparou o workflow é ${{ github.event_name }}"
 ```
 
-In this example, the `${{ github.event.created_at }}` expression is used to print the date when the event that triggered the workflow was created.
+Neste exemplo, a expressão `${{ github.event_name }}` é usada para imprimir o nome do evento que disparou o workflow.
 
-### Commonly Used Contexts
+### Contextos Comumente Usados
 
-GitHub provides several contexts that you can use in expressions:
+O GitHub fornece vários contextos que você pode usar em expressões:
 
-- `github`: Contains information about the workflow run and the event that triggered it.
-- `env`: Contains environment variables that have been set in the workflow.
-- `job`: Contains information about the current job.
-- `steps`: Contains information about the steps in the current job.
-- `runner`: Contains information about the runner executing the job.
-- `secrets`: Contains secrets that have been configured in the repository.
+- `github`: Contém informações sobre a execução do workflow e o evento que o acionou.
+- `env`: Contém variáveis de ambiente que foram definidas no workflow.
+- `job`: Contém informações sobre o job atual.
+- `steps`: Contém informações sobre os passos no job atual.
+- `runner`: Contém informações sobre o runner que está executando o job.
+- `secrets`: Contém segredos (secrets) que foram configurados no repositório.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
   context-example:
     runs-on: ubuntu-latest
     steps:
-      - name: Print repository name
-        run: echo "The repository name is ${{ github.repository }}"
-      - name: Print runner OS
-        run: echo "The runner OS is ${{ runner.os }}"
+      - name: Imprimir nome do repositório
+        run: echo "O nome do repositório é ${{ github.repository }}"
+      - name: Imprimir SO do runner
+        run: echo "O SO do runner é ${{ runner.os }}"
 ```
 
-In this example, the `${{ github.repository }}` and `${{ runner.os }}` expressions are used to print the repository name and the runner operating system, respectively.
+Neste exemplo, as expressões `${{ github.repository }}` e `${{ runner.os }}` são usadas para imprimir o nome do repositório e o sistema operacional do runner, respectivamente.
 
-### Defining and Using Variables
+### Definindo e Usando Variáveis
 
-You can define variables using the `set-output` command and use them later in your workflow.
+Você pode definir variáveis usando o comando `set-output` e usá-las posteriormente em seu workflow.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
   variables-example:
     runs-on: ubuntu-latest
     steps:
-      - name: Set a variable
+      - name: Definir uma variável
         id: step1
-        run: echo "::set-output name=my_var::Hello, World!"
-      - name: Use the variable
-        run: echo "The variable is ${{ steps.step1.outputs.my_var }}"
+        run: echo "::set-output name=my_var::Olá, Mundo!"
+      - name: Usar a variável
+        run: echo "A variável é ${{ steps.step1.outputs.my_var }}"
 ```
 
-In this example, the `set-output` command is used to define a variable `my_var` in the first step, and it is accessed in the second step using the `${{ steps.step1.outputs.my_var }}` syntax.
+Neste exemplo, o comando `set-output` é usado para definir uma variável `my_var` no primeiro passo, e ela é acessada no segundo passo usando a sintaxe `${{ steps.step1.outputs.my_var }}`.
 
-## Passing Variables Between Jobs
+## Passando Variáveis Entre Jobs
 
-In GitHub Actions, you can pass variables between jobs using artifacts or outputs. Here, we'll cover both methods.
+No GitHub Actions, você pode passar variáveis entre jobs usando artefatos ou saídas (outputs). Aqui, abordaremos ambos os métodos.
 
-### Using Artifacts
+### Usando Artefatos
 
-Artifacts allow you to share files between jobs in a workflow. You can use artifacts to pass variables by writing them to a file and then uploading and downloading the file in different jobs.
+Artefatos permitem que você compartilhe arquivos entre jobs em um workflow. Você pode usar artefatos para passar variáveis escrevendo-as em um arquivo e, em seguida, fazendo o upload e o download do arquivo em jobs diferentes.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
-      - name: Set variable
-        run: echo "MY_VARIABLE=Hello, World!" > my_variable.txt
-      - name: Upload artifact
+      - name: Definir variável
+        run: echo "MY_VARIABLE=Olá, Mundo!" > my_variable.txt
+      - name: Fazer upload do artefato
         uses: actions/upload-artifact@v4
         with:
           name: my-variable
@@ -219,22 +188,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: job1
     steps:
-      - name: Download artifact
+      - name: Fazer download do artefato
         uses: actions/download-artifact@v4
         with:
           name: my-variable
           path: .
-      - name: Read variable
+      - name: Ler variável
         run: source my_variable.txt && echo $MY_VARIABLE
 ```
 
-In this example, `job1` writes the variable to a file and uploads it as an artifact. `job2` downloads the artifact and reads the variable from the file.
+Neste exemplo, o `job1` escreve a variável em um arquivo e faz o upload como um artefato. O `job2` faz o download do artefato e lê a variável do arquivo.
 
-### Using Outputs
+### Usando Saídas (Outputs)
 
-You can also pass variables between jobs using job outputs. This method is more straightforward for simple variables.
+Você também pode passar variáveis entre jobs usando saídas de job (job outputs). Este método é mais direto para variáveis simples.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
@@ -243,59 +212,59 @@ jobs:
     outputs:
       my_var: ${{ steps.set-output.outputs.my_var }}
     steps:
-      - name: Set output
+      - name: Definir saída
         id: set-output
-        run: echo "::set-output name=my_var::Hello, World!"
+        run: echo "::set-output name=my_var::Olá, Mundo!"
 
   job2:
     runs-on: ubuntu-latest
     needs: job1
     steps:
-      - name: Use output
-        run: echo "The variable is ${{ needs.job1.outputs.my_var }}"
+      - name: Usar saída
+        run: echo "A variável é ${{ needs.job1.outputs.my_var }}"
 ```
 
-In this example, `job1` sets an output variable `my_var`, and `job2` accesses this variable using the `${{ needs.job1.outputs.my_var }}` syntax.
+Neste exemplo, o `job1` define uma variável de saída `my_var`, e o `job2` acessa essa variável usando a sintaxe `${{ needs.job1.outputs.my_var }}`.
 
-## Using the `GITHUB_TOKEN`
+## Usando o `GITHUB_TOKEN`
 
-GitHub provides a special access token called `GITHUB_TOKEN` that you can use to authenticate on behalf of GitHub Actions. This token is automatically generated by GitHub and is available in the `github.token` context.
+O GitHub fornece um token de acesso especial chamado `GITHUB_TOKEN` que você pode usar para autenticar em nome do GitHub Actions. Este token é gerado automaticamente pelo GitHub e está disponível no contexto `github.token`.
 
-### Accessing the `GITHUB_TOKEN`
+### Acessando o `GITHUB_TOKEN`
 
-The `GITHUB_TOKEN` is automatically provided by GitHub and can be accessed in your workflow file using the `${{ secrets.GITHUB_TOKEN }}` syntax.
+O `GITHUB_TOKEN` é fornecido automaticamente pelo GitHub e pode ser acessado em seu arquivo de workflow usando a sintaxe `${{ secrets.GITHUB_TOKEN }}`.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
   github-token-example:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout do repositório
         uses: actions/checkout@v2
-      - name: Use GITHUB_TOKEN to authenticate
+      - name: Usar GITHUB_TOKEN para autenticar
         run: |
-          echo "Authenticating with GITHUB_TOKEN"
+          echo "Autenticando com GITHUB_TOKEN"
           curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/issues
 ```
 
-In this example, the `GITHUB_TOKEN` is used to authenticate a request to the GitHub API to list issues in the repository.
+Neste exemplo, o `GITHUB_TOKEN` é usado para autenticar uma requisição à API do GitHub para listar as issues no repositório.
 
-### Using `GITHUB_TOKEN` with Actions
+### Usando o `GITHUB_TOKEN` com Actions
 
-You can use the `GITHUB_TOKEN` with various actions that require authentication.
+Você pode usar o `GITHUB_TOKEN` com várias actions que requerem autenticação.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
   github-token-example:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout do repositório
         uses: actions/checkout@v2
-      - name: Create a new issue
+      - name: Criar uma nova issue
         uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -303,18 +272,18 @@ jobs:
             github.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Automated Issue",
-              body: "This issue was created automatically using the GITHUB_TOKEN."
+              title: "Issue Automatizada",
+              body: "Esta issue foi criada automaticamente usando o GITHUB_TOKEN."
             })
 ```
 
-In this example, the `GITHUB_TOKEN` is used with the `actions/github-script` action to create a new issue in the repository.
+Neste exemplo, o `GITHUB_TOKEN` é usado com a action `actions/github-script` para criar uma nova issue no repositório.
 
-### Permissions of the `GITHUB_TOKEN`
+### Permissões do `GITHUB_TOKEN`
 
-The `GITHUB_TOKEN` has limited permissions by default, but you can customize these permissions in your workflow file.
+O `GITHUB_TOKEN` tem permissões limitadas por padrão, mas você pode personalizar essas permissões em seu arquivo de workflow.
 
-Example:
+Exemplo:
 
 ```yaml
 permissions:
@@ -325,9 +294,9 @@ jobs:
   github-token-example:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout do repositório
         uses: actions/checkout@v2
-      - name: Create a new issue
+      - name: Criar uma nova issue
         uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -335,41 +304,41 @@ jobs:
             github.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: "Automated Issue",
-              body: "This issue was created automatically using the GITHUB_TOKEN."
+              title: "Issue Automatizada",
+              body: "Esta issue foi criada automaticamente usando o GITHUB_TOKEN."
             })
 ```
 
-In this example, the `GITHUB_TOKEN` is granted read access to the repository contents and write access to issues.
+Neste exemplo, são concedidas ao `GITHUB_TOKEN` permissões de leitura para o conteúdo do repositório e de escrita para as issues.
 
-## Exercise: Advanced Configuration in GitHub Actions
+## Exercício: Configuração Avançada no GitHub Actions
 
-In this exercise, you will practice advanced configuration techniques for GitHub Actions workflows. Follow the steps below to complete the exercise.
+Neste exercício, você praticará técnicas de configuração avançada para workflows do GitHub Actions. Siga os passos abaixo para completar o exercício.
 
-### Step 1: Define Environment Variables
-1. Create a new workflow file.
-2. Define environment variables at the job level.
-3. Print the environment variables in a step.
+### Passo 1: Definir Variáveis de Ambiente
+1. Crie um novo arquivo de workflow.
+2. Defina variáveis de ambiente no nível do job.
+3. Imprima as variáveis de ambiente em um passo.
 
-### Step 2: Use Environment Variables in Steps
-1. Define environment variables at the step level.
-2. Print the environment variables in subsequent steps.
+### Passo 2: Usar Variáveis de Ambiente em Passos
+1. Defina variáveis de ambiente no nível do passo.
+2. Imprima as variáveis de ambiente em passos subsequentes.
 
-### Step 3: Implement Conditional Execution
-1. Create steps that run based on specific conditions using the `if` keyword.
-   - Example: `if: github.event_name == 'push'` (This step will only run if the event triggering the workflow is a push event).
-2. Combine multiple conditions using logical operators.
-   - Example: `if: github.event_name == 'push' && github.ref == 'refs/heads/main'` (This step will only run if the event is a push and the branch is main).
+### Passo 3: Implementar Execução Condicional
+1. Crie passos que são executados com base em condições específicas usando a palavra-chave `if`.
+   - Exemplo: `if: github.event_name == 'push'` (Este passo será executado apenas se o evento que acionou o workflow for um evento de push).
+2. Combine múltiplas condições usando operadores lógicos.
+   - Exemplo: `if: github.event_name == 'push' && github.ref == 'refs/heads/main'` (Este passo será executado apenas se o evento for um push e o branch for o main).
 
-### Step 4: Utilize GitHub Expressions and Variables
-1. Use expressions to compute values dynamically.
-2. Access different contexts such as `github`, `env`, `job`, `steps`, `runner`, and `secrets`.
+### Passo 4: Utilizar Expressões e Variáveis do GitHub
+1. Use expressões para calcular valores dinamicamente.
+2. Acesse diferentes contextos como `github`, `env`, `job`, `steps`, `runner` e `secrets`.
 
-### Step 5: Pass Variables Between Jobs
-1. Use artifacts to pass variables between jobs by writing them to a file.
-2. Use job outputs to pass variables between jobs.
+### Passo 5: Passar Variáveis Entre Jobs
+1. Use artefatos para passar variáveis entre jobs, escrevendo-as em um arquivo.
+2. Use saídas de job para passar variáveis entre jobs.
 
-### Step 6: Use the `GITHUB_TOKEN`
-1. Access the `GITHUB_TOKEN` in your workflow.
-2. Use the `GITHUB_TOKEN` to authenticate with the GitHub API.
-3. Customize the permissions of the `GITHUB_TOKEN`.
+### Passo 6: Usar o `GITHUB_TOKEN`
+1. Acesse o `GITHUB_TOKEN` em seu workflow.
+2. Use o `GITHUB_TOKEN` para autenticar com a API do GitHub.
+3. Personalize as permissões do `GITHUB_TOKEN`.

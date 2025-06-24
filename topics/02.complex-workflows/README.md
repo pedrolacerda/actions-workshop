@@ -38,17 +38,18 @@ jobs:
 3. Cada job deve ter um passo que imprime uma mensagem.
 
 Observe a ordem de execução na aba Actions.
-# Complex Workflows
 
-In this section, we will cover advanced topics related to GitHub Actions workflows, including parallel and sequential jobs, matrix builds, and reusable workflows.
+# Workflows Complexos
 
-## Parallel and Sequential Jobs
+Nesta seção, abordaremos tópicos avançados relacionados aos workflows do GitHub Actions, incluindo jobs paralelos e sequenciais, builds em matriz e workflows reutilizáveis.
 
-### Parallel Jobs
+## Jobs Paralelos e Sequenciais
 
-Parallel jobs allow you to run multiple jobs simultaneously. This can help speed up your CI/CD pipeline by running independent tasks in parallel.
+### Jobs Paralelos
 
-Example:
+Jobs paralelos permitem executar múltiplos jobs simultaneamente. Isso pode ajudar a acelerar seu pipeline de CI/CD executando tarefas independentes em paralelo.
+
+Exemplo:
 
 ```yaml
 jobs:
@@ -56,40 +57,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run parallel job 1
-        run: echo "Running parallel job 1"
+      - name: Executar job paralelo 1
+        run: echo "Executando job paralelo 1"
 
   parallel-job-2:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run parallel job 2
-        run: echo "Running parallel job 2"
+      - name: Executar job paralelo 2
+        run: echo "Executando job paralelo 2"
 ```
 
-### Sequential Jobs
+### Jobs Sequenciais
 
-Sequential jobs allow you to run jobs in a specific order. This can be useful when you have tasks that depend on the completion of previous tasks.
+Jobs sequenciais permitem executar jobs em uma ordem específica. Isso pode ser útil quando você tem tarefas que dependem da conclusão de tarefas anteriores.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
-  [...]
+  # ...código existente...
   sequential-job:
     runs-on: ubuntu-latest
     needs: [parallel-job-1, parallel-job-2]
     steps:
       - uses: actions/checkout@v2
-      - name: Run sequential job
-        run: echo "Running sequential job"
+      - name: Executar job sequencial
+        run: echo "Executando job sequencial"
 ```
 
-## Matrix Builds
+## Builds em Matriz
 
-Matrix builds allow you to run a job with multiple configurations. This can be useful for testing your code against different environments or versions of dependencies.
+Builds em matriz permitem executar um job com múltiplas configurações. Isso pode ser útil para testar seu código contra diferentes ambientes ou versões de dependências.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
@@ -100,44 +101,44 @@ jobs:
         node-version: [12, 14, 16]
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Node.js ${{ matrix.node-version }}
+      - name: Configurar Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
+      - name: Instalar dependências
         run: npm install
-      - name: Run tests
+      - name: Executar testes
         run: npm test
 ```
 
-## Reusable Workflows
+## Workflows Reutilizáveis
 
-Reusable workflows allow you to define a workflow once and reuse it in multiple repositories or workflows. This can help reduce duplication and make it easier to maintain your CI/CD pipelines.
+Workflows reutilizáveis permitem definir um workflow uma vez e reutilizá-lo em múltiplos repositórios ou workflows. Isso pode ajudar a reduzir duplicação e facilitar a manutenção de seus pipelines de CI/CD.
 
-Example:
+Exemplo:
 
 ```yaml
 jobs:
   reusable-workflow:
     uses: ./.github/workflows/reusable-workflow.yml
     with:
-      some-input: some-value
+      some-input: algum-valor
 ```
 
-In this example, the `reusable-workflow` job uses a reusable workflow defined in the `.github/workflows/reusable-workflow.yml` file. You can pass inputs to the reusable workflow using the `with` keyword.
+Neste exemplo, o job `reusable-workflow` usa um workflow reutilizável definido no arquivo `.github/workflows/reusable-workflow.yml`. Você pode passar entradas para o workflow reutilizável usando a palavra-chave `with`.
 
-Reusable workflows can also be stored in a separate repository in the same organization or in another organization in the same enterprise. This can be useful if you want to share workflows across multiple repositories.
+Workflows reutilizáveis também podem ser armazenados em um repositório separado na mesma organização ou em outra organização na mesma empresa. Isso pode ser útil se você quiser compartilhar workflows em múltiplos repositórios.
 
-Example:
+Exemplo:
 
 ```yaml
-name: Reusable Workflow
+name: Workflow Reutilizável
 
 on:
   workflow_call:
     inputs:
       some-input:
-        description: 'An example input'
+        description: 'Um exemplo de entrada'
         required: true
         type: string
 
@@ -145,40 +146,40 @@ jobs:
   example-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Fazer checkout do repositório
         uses: actions/checkout@v2
 
-      - name: Print input
-        run: echo "The input value is ${{ inputs.some-input }}"
+      - name: Imprimir entrada
+        run: echo "O valor da entrada é ${{ inputs.some-input }}"
 ```
 
-## Exercise: Implementing Advanced GitHub Actions Workflows
+## Exercício: Implementando Workflows Avançados do GitHub Actions
 
-In this exercise, you will create and configure advanced GitHub Actions workflows to understand and utilize parallel jobs, sequential jobs, matrix builds, and reusable workflows. Follow the steps below to complete the exercise:
+Neste exercício, você criará e configurará workflows avançados do GitHub Actions para entender e utilizar jobs paralelos, jobs sequenciais, builds em matriz e workflows reutilizáveis. Siga os passos abaixo para completar o exercício:
 
-### Step 1: Set Up Parallel Jobs
-1. Create a new GitHub Actions workflow file.
-2. Define two parallel jobs that run simultaneously.
-3. Ensure each job performs a distinct task.
+### Passo 1: Configurar Jobs Paralelos
+1. Crie um novo arquivo de workflow do GitHub Actions.
+2. Defina dois jobs paralelos que executam simultaneamente.
+3. Assegure-se de que cada job executa uma tarefa distinta.
 
-### Step 2: Configure Sequential Jobs
-1. Add a new job to the workflow file.
-2. Configure this job to run only after the completion of the parallel jobs.
-3. Ensure this job performs a task dependent on the parallel jobs.
+### Passo 2: Configurar Jobs Sequenciais
+1. Adicione um novo job ao arquivo de workflow.
+2. Configure este job para executar apenas após a conclusão dos jobs paralelos.
+3. Assegure-se de que este job executa uma tarefa dependente dos jobs paralelos.
 
-### Step 3: Implement Matrix Builds
-1. Add a new job to the workflow file.
-2. Configure the job to run with multiple configurations using a matrix strategy.
-3. Ensure the job tests your code against different environments or versions of dependencies.
+### Passo 3: Implementar Builds em Matriz
+1. Adicione um novo job ao arquivo de workflow.
+2. Configure o job para executar com múltiplas configurações usando uma estratégia de matriz.
+3. Assegure-se de que o job testa seu código contra diferentes ambientes ou versões de dependências.
 
-### Step 4: Create and Use Reusable Workflows
-1. Define a reusable workflow in a separate YAML file.
-2. Reference this reusable workflow in your main workflow file.
-3. Pass necessary inputs to the reusable workflow and ensure it performs a task using these inputs.
+### Passo 4: Criar e Usar Workflows Reutilizáveis
+1. Defina um workflow reutilizável em um arquivo YAML separado.
+2. Referencie este workflow reutilizável em seu arquivo de workflow principal.
+3. Passe as entradas necessárias para o workflow reutilizável e assegure-se de que ele executa uma tarefa usando essas entradas.
 
-### Step 5: Test and Validate
-1. Commit and push your changes to the repository.
-2. Verify that all jobs run as expected in the Actions tab of your GitHub repository.
-3. Make any necessary adjustments to ensure the workflows are functioning correctly.
+### Passo 5: Testar e Validar
+1. Faça commit e push de suas alterações para o repositório.
+2. Verifique se todos os jobs executam conforme esperado na aba Actions do seu repositório GitHub.
+3. Faça os ajustes necessários para assegurar que os workflows estão funcionando corretamente.
 
-By completing this exercise, you will gain hands-on experience with advanced GitHub Actions workflows, enhancing your CI/CD pipeline capabilities.
+Ao completar este exercício, você ganhará experiência prática com workflows avançados do GitHub Actions, aprimorando suas capacidades de pipeline de CI/CD.
