@@ -1,0 +1,10 @@
+name: Teste subpastas
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "oi"
