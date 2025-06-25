@@ -2,8 +2,6 @@ name: 02. Complex Workflows
 
 on:
   push:
-    branches:
-      - main
 
 jobs:
   parallel-job-1:
@@ -29,13 +27,14 @@ jobs:
         run: echo "Running sequential job"
 
   matrix-build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         working-directory: sample-app
     strategy:
       matrix:
         node-version: [12, 14, 16]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v4
       - name: Set up Node.js ${{ matrix.node-version }}
